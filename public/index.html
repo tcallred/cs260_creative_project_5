@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+    <script src="javascripts/picture_maker.js"></script>
+    <link rel="stylesheet" href="stylesheets/pic.css">
+</head>
+
+<body ng-app='app' ng-controller="mainCtrl">
+
+    <div class="picArea container-flex">
+        <div ng-repeat="img in images">
+            <img src="{{img.picUrl}}" style="width:{{img.picWidth}};z-index:{{img.picIndex}};position:absolute;left:{{img.picLeft}};top:{{img.picTop}}" class="{{returnClass(img)}}">
+        </div>
+    </div>
+    <div class="control row">
+        <div class="layers col-md-8">
+            <h3>Layers:</h3>
+            <table>
+                <tr ng-repeat="img in images | orderBy: '-picIndex'" ng-mouseenter="selected(img)" ng-mouseleave="unselected(img)">
+                    <td><strong>{{img.picName}}</strong>
+                    </td>
+                    <td>Image width: <input type="number" ng-model="img.picWidth"></td>
+                    <td>Image layer index: <input type="number" ng-model="img.picIndex"></td>
+                    <td>Left: <input type="number" ng-model="img.picLeft"></td>
+                    <td>Top: <input type="number" ng-model="img.picTop"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="add col-md-4">
+            <h2>Add new image layer</h2>
+            <form ng-submit="addImage(img)">
+                <input type="text" placeholder="Image name" ng-model="img.name">
+                <input type="text" placeholder="Image URL" ng-model="img.url">
+                <button type="submit" class="btn btn-primary">Put it in!</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
