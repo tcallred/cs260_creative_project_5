@@ -9,33 +9,50 @@
 
 <body ng-app='app' ng-controller="mainCtrl">
 
+    <div class="add container">
+        <h2>Add new image layer</h2>
+        <form ng-submit="addImage(img)">
+            <input type="text" placeholder="Image name" ng-model="img.name">
+            <input type="text" placeholder="Image URL" ng-model="img.url">
+            <button type="submit" class="btn btn-primary">Put it in!</button>
+        </form>
+        <form ng-submit="saveCanvas(canvas)">
+            <input type="text" placeholder="Canvas name" ng-model="canvas.name">
+            <button type="submit" class="btn btn-primary">Save Current Canvas!</button>
+        </form>
+    </div>
+    <div class="container">
+        <center>
+            <h2>{{canvas.name}}</h2>
+        </center>
+    </div>
+
     <div class="picArea container-flex">
-        <div ng-repeat="img in images">
+        <div ng-repeat="img in canvas.images">
             <img src="{{img.picUrl}}" style="width:{{img.picWidth}};z-index:{{img.picIndex}};position:absolute;left:{{img.picLeft}};top:{{img.picTop}}" class="{{returnClass(img)}}">
         </div>
     </div>
-    <div class="control row">
+    <div class="control container-flex">
         <div class="layers col-md-8">
             <h3>Layers:</h3>
             <table>
-                <tr ng-repeat="img in images | orderBy: '-picIndex'" ng-mouseenter="selected(img)" ng-mouseleave="unselected(img)">
+                <tr ng-repeat="img in canvas.images | orderBy: '-picIndex'" ng-mouseenter="selected(img)" ng-mouseleave="unselected(img)">
                     <td><strong>{{img.picName}}</strong>
                     </td>
-                    <td>Image width: <input type="number" ng-model="img.picWidth"></td>
-                    <td>Image layer index: <input type="number" ng-model="img.picIndex"></td>
-                    <td>Left: <input type="number" ng-model="img.picLeft"></td>
-                    <td>Top: <input type="number" ng-model="img.picTop"></td>
+                    <td>Image width: <input type="range" class="slider" min="0" max="3000" ng-model="img.picWidth"></td>
+                    <td>Horizontal Position: <input type="range" class="slider" min="0" max="1900" ng-model="img.picLeft"></td>
+                    <td>Vertical Position: <input type="range" class="slider" min="0" max="800" ng-model="img.picTop"></td>
+                    <td>Image layer index: <input type="number" class="num-input" ng-model="img.picIndex"></td>
                 </tr>
             </table>
         </div>
-        <div class="add col-md-4">
-            <h2>Add new image layer</h2>
-            <form ng-submit="addImage(img)">
-                <input type="text" placeholder="Image name" ng-model="img.name">
-                <input type="text" placeholder="Image URL" ng-model="img.url">
-                <button type="submit" class="btn btn-primary">Put it in!</button>
-            </form>
-        </div>
+
+    </div>
+    <h1>See others' Saved Canvases</h1>
+    <div class="canvases container-flex">
+
+        <div ng-repeat="canv in canvasArray" class="canv" ng-click="loadCanvas(canv)">{{canv.name}}</div>
+
     </div>
 
 </body>
